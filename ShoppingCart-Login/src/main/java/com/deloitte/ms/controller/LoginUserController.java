@@ -24,15 +24,17 @@ public class LoginUserController {
 	private AuthenticationManager authenticationManager;
 	
 	@PostMapping("/login")
-	public ResponseEntity<HttpStatus> loginpage(@RequestBody LoginUser login) throws Exception{
+	public ResponseEntity<String> loginpage(@RequestBody LoginUser login) throws Exception{
 		Authentication authObject = null;
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login.getEmail(),login.getPassword()));
 			SecurityContextHolder.getContext().setAuthentication(authObject);
 		}catch(BadCredentialsException e) {
-			throw new Exception("Invalid Credentials");
+			
+			throw new Exception("Invalid Credentials");	
+			
 		}
 		
-		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+		return new ResponseEntity<String>("You are logged in",HttpStatus.OK);
 	}
 }
